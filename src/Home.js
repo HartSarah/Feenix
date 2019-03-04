@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import "./Home.css";
 
 function Login() {
@@ -31,13 +32,9 @@ function Register() {
           placeholder="Password"
         />
       </div>
-      <select className="form-control">
-        <option value="entertainer">Entertainer</option>
-        <option value="customer" default>
-          Customer
-        </option>
-      </select>
-      <button className="btn btn-dark">Sign Up</button>
+      <Link to="profile">
+        <button className="btn btn-dark">Sign Up</button>
+      </Link>
     </div>
   );
 }
@@ -60,7 +57,7 @@ class Home extends Component {
                 onClick={() => this.setState({ tab: "login" })}
                 // add active class to the current selected tab
                 className={
-                  "nav-link " + (this.state.tab == "login" ? "active" : "")
+                  "nav-link " + (this.state.tab === "login" ? "active" : "")
                 }
               >
                 Login
@@ -70,7 +67,7 @@ class Home extends Component {
               <a
                 onClick={() => this.setState({ tab: "register" })}
                 className={
-                  "nav-link " + (this.state.tab == "register" ? "active" : "")
+                  "nav-link " + (this.state.tab === "register" ? "active" : "")
                 }
               >
                 Sign Up
@@ -79,7 +76,7 @@ class Home extends Component {
           </ul>
           <div className="tab-content py-4 px-5">
             {/* render either the Login or the Register component depending on the current state of the Home Component */}
-            {this.state.tab == "login" ? <Login /> : <Register />}
+            {this.state.tab === "login" ? <Login /> : <Register />}
           </div>
         </div>
       </div>

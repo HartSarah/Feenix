@@ -4,6 +4,7 @@ import Home from "./Home";
 import CreateProfile from "./CreateProfile";
 import EntertainerDashboard from "./EntertainerDashboard";
 import { BrowserRouter, Route } from "react-router-dom";
+import UserSearch from "./UserSearch";
 
 class App extends Component {
   render() {
@@ -16,6 +17,7 @@ class App extends Component {
             path="/EntertainerDashboard"
             component={EntertainerDashboard}
           />
+          <Route path="/usersearch" component={UserSearch} />
         </>
       </BrowserRouter>
     );

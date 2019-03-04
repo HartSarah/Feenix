@@ -15,7 +15,9 @@ function Login() {
           placeholder="Password"
         />
       </div>
+      <Link to ="usersearch">
       <button className="btn btn-dark">Log In</button>
+      </Link>
     </div>
   );
 }

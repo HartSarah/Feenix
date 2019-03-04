@@ -1,3 +1,15 @@
-.Search-container {
+.search-container {
     width: 540px;
+  }
+  .search-box{
+    border:1px solid grey;
+    border-radius: 5px;
+}
+.search-header {
+    font-size: 4.5rem;
+  }
+
+  .app-decription{
+      margin-top:20px;
+      margin-bottom:60px;
   }

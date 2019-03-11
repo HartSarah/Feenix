@@ -13,5 +13,5 @@ cd Feenix/src
 npm install
 
 #start running App.js
-node App.js
+node index.js
 

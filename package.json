@@ -5,9 +5,9 @@
   "dependencies": {
     "@blueprintjs/core": "^3.14.1",
     "firebase": "^5.9.0",
-    "react": "^16.8.3",
+    "react": "^16.8.4",
     "react-dates": "^20.1.0",
-    "react-dom": "^16.8.3",
+    "react-dom": "^16.8.4",
     "react-firebase": "^2.2.8",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.5"

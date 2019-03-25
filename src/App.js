@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
-import Home from "./Home";
-import CreateProfile from "./CreateProfile";
 import Login from "./components/Login";
+import CreateProfile from "./CreateProfile";
 import Logout from "./components/Logout";
 import EntertainerDashboard from "./EntertainerDashboard";
 import UserSearch from "./UserSearch";
@@ -62,7 +61,7 @@ class App extends Component {
     return (
     <BrowserRouter>
     <>
-      <Route path="" exact component={Home} />
+      <Route path="" exact component={Login} />
       <Route path="/profile" component={CreateProfile} />
       <Route path="/EntertainerDashboard" component={EntertainerDashboard}/>
       <Route path="/UserSearch" component={UserSearch} />

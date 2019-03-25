@@ -5,10 +5,10 @@
   width: 540px;
 }
 .app-decription{
-    margin-top:20px;
-    margin-bottom:60px;
+  margin-top:20px;
+  margin-bottom:60px;
 }
 .login-dialog{
-    border:1px solid grey;
-    border-radius: 5px;
+  border:1px solid grey;
+  border-radius: 5px;
 }

@@ -1,0 +1,24 @@
+.button {
+    width: auto;
+    background-color: black;
+}
+
+form {
+    border:1px solid grey;
+    border-radius: 5px;
+    padding: 20px;
+
+}
+
+.login-header {
+    font-size: 4.5rem;
+}
+
+.login-container {
+width: 540px;
+}
+
+.app-decription{
+margin-top:20px;
+margin-bottom:60px;
+}

@@ -12,6 +12,7 @@ import ProfileViewer from "./ProfileViewer";
 import { BrowserRouter, Route } from "react-router-dom";
 import { Spinner } from '@blueprintjs/core';
 import { fire } from './fire'
+import Signup from "./components/Signup";
 
 
 class App extends Component {
@@ -69,6 +70,7 @@ class App extends Component {
       <Route path="/ProfileViewer" component={ProfileViewer} />
       <Route path="/Logout" exact component={Logout} />
       <Route path="/Login" exact component={Login} />
+      <Route path="/Signup" component={Signup} />
     </>
     </BrowserRouter>
     );

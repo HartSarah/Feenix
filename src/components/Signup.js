@@ -2,15 +2,8 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Toaster, Intent } from '@blueprintjs/core';
 import { fire } from '../fire'
+import "./Signup.css";
 
-const loginStyles = {
-  width: "90%",
-  maxWidth: "315x",
-  margin: "20px auto",
-  border: "1px solid #ddd",
-  borderRadius: "5px",
-  padding: "10px"
-}
 class Signup extends Component {
 
   constructor(props) {
@@ -53,31 +46,39 @@ class Signup extends Component {
     return (
 
 
-      <div style={loginStyles} className="container text-center login-container">
+      <div className="container text-center login-container">
 
         <h1 className="login-header">Feenix</h1>
-        <p className="app-decription text-muted">Sign Up</p>
+        <p className="text">
+          Please enter your email and password
+        </p>
 
         <Toaster ref={(element) => { this.toaster = element }} />
 
         <form onSubmit={(event) => { this.authWithEmailPassword(event) }} ref={(form) => { this.loginForm = form }}>
+        
           <label className="pt-label">
-            Email
-              <input style={{ width: "100%" }} className="pt-input" name="email" type="email" ref={(input) => { this.emailInput = input }} placeholder="Email"></input>
+              <input className="pt-input" name="email" type="email" ref={(input) => { this.emailInput = input }} placeholder="Email"></input>
           </label>
+
+          <p></p>
+
           <label className="pt-label">
-            Password
-              <input style={{ width: "100%" }} className="pt-input" name="password" type="password" ref={(input) => { this.passwordInput = input }} placeholder="Password"></input>
+              <input className="pt-input" name="password" type="password" ref={(input) => { this.passwordInput = input }} placeholder="Password"></input>
           </label>
 
           {/* <label className="pt-label">
               Password Confirmation
               <input style={{width: "100%"}} className="pt-input" name="password2" type="password" ref={(input) => { this.passwordInput = input }} placeholder="Password"></input>
             </label> */}
-          <input style={{ width: "100%" }} type="submit" className="btn btn-dark" value="Sign Up"></input>
+          <p></p>
+          <input type="submit" className="button" value="Sign Up"></input>
+
         </form>
-        <div style={{ marginBottom: "10px" }} className="pt-callout pt-icon-info-sign">
+
+        <div className="pt-callout pt-icon-info-sign">
         </div>
+
       </div>
     )
   }

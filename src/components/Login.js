@@ -80,9 +80,14 @@ class Login extends Component {
 
       <div className="container text-center login-container">
         <div>
-          <h1 className="login-header">Feenix 1.0</h1>
-          <p className="app-decription text-muted">My App Description</p>
+        <h1 className="login-header">Feenix</h1>
+          <p className="text">
+          Please enter your email and password<br/>
+          Or log in with Facebook 
+          </p>
         </div>
+
+        <p></p>
 
         <Toaster ref={(element) => { this.toaster = element }} />
 
@@ -102,19 +107,21 @@ class Login extends Component {
 
             <p></p>
 
-            <input type="submit" className="btn btn-dark" value="Log In"></input>
+            <input type="submit" className="button" value="Log In"></input>
 
           </form>
         </div>
         <p></p>
-        <button className="btn btn-dark" onClick={() => { this.authWithFacebook() }}>Log In with Facebook</button>
+        <button className="button" onClick={() => { this.authWithFacebook() }}>Log In with Facebook</button>
 
         <div className="pt-callout pt-icon-info-sign">
 
         </div>
 
         <p></p>
-        Don't have an account? <a href="/Signup" > Register Here</a>
+        <div className="text">
+          Don't have an account? <a href="/Signup" > Register Here</a>
+        </div>
 
       </div>
     )

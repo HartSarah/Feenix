@@ -4,7 +4,7 @@
     padding: 20px;
 }
 
-.login-header {
+.header {
     font-size: 4.5rem;
     color: #db5243;
     text-shadow: -1px 0 #db5243, 0 1px #db5243, 1px 0 #db5243, 0 -1px #db5243; 
@@ -14,7 +14,7 @@
     width: 540px;
 }
 
-.app-decription{
+.app-description{
     margin-top:20px;
     margin-bottom:60px;
 }
@@ -34,4 +34,18 @@
 
 .text {
     color: #7e7e7e;
+}
+
+.button-container {
+    width: 500px;
+    height: 265px;
+    border:1px solid grey;
+    border-radius: 5px;
+}
+
+.usernav-box{
+    width: 530px;
+    height: 470px;
+    border:1px solid grey;
+    border-radius: 5px;
 }

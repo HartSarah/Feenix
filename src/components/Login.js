@@ -60,7 +60,7 @@ class Login extends Component {
         }
       })
       .then((user) => {
-        if (user && user.email) {
+        if (user){  //&& user.email) {
           this.loginForm.reset()
           // this.props.setCurrentUser(user)
           this.setState({ redirect: true })
@@ -72,7 +72,7 @@ class Login extends Component {
   }
 
   render() {
-    const { from } = this.props.location.state || { from: { pathname: '/EntertainerDashboard' } }
+    const { from } = this.props.location.state || { from: { pathname: '/UserNavigation' } }
     if (this.state.redirect === true) {
       return <Redirect to={from} />
     }

@@ -80,7 +80,7 @@ class Login extends Component {
 
       <div className="container text-center login-container">
         <div>
-          <h1 className="login-header">Feenix</h1>
+          <h1 className="login-header">Feenix 1.0</h1>
           <p className="app-decription text-muted">My App Description</p>
         </div>
 

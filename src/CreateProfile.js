@@ -1,12 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "./CreateProfile.css";
 
 export default class CreateProfile extends React.Component {
   state = { userType: "customer" };
   render() {
     return (
-      <div className="container pt-5 text-center">
-        <h1>Create Profile</h1>
+      <div className="container text-center search-container">
+        <h1 className="header">Feenix</h1>
+        <p className="text">
+          Please choose from the drop down if you are a customer or an entertainer <br />
+          Then create your profile
+        </p>
         <div className="form-group">
           {/* changes the state of the class depending on which option is selected */}
           <select
@@ -49,7 +54,7 @@ function Customer() {
           className="form-control"
         />
       </div>
-      <button className="btn btn-dark">Sign Up as Customer!</button>
+      <button className="button">Create customer profile!</button>
     </>
   );
 }
@@ -64,7 +69,19 @@ function Entertainer() {
       </div>
 
       <div className="form-group">
-        <input type="text" className="form-control" placeholder="Genre" />
+        <select className="form-control" placeholder="Category">
+          {[
+            "Category",
+            "Comedy",
+            "Kids",
+            "Magic",
+            "Music",
+          ]
+            // transforms the array of counties to an array of <option>county</option>
+            .map(category => (
+              <option>{category}</option>
+            ))}
+        </select>
       </div>
       <div className="form-group">
         <select className="form-control" placeholder="County">
@@ -103,10 +120,10 @@ function Entertainer() {
             "Wexford",
             "Wicklow"
           ]
-          // transforms the array of counties to an array of <option>county</option>
-          .map(county => (
-            <option>{county}</option>
-          ))}
+            // transforms the array of counties to an array of <option>county</option>
+            .map(county => (
+              <option>{county}</option>
+            ))}
         </select>
       </div>
       <div className="form-group">
@@ -121,7 +138,7 @@ function Entertainer() {
       </div>
       {/* tells the browser router to change the route to EntertainerDashboard */}
       <Link to="/EntertainerDashboard">
-        <button className="btn btn-dark">Sign Up as Entertainer!</button>
+        <button className="button">Create entertainer profile!</button>
       </Link>
     </>
   );

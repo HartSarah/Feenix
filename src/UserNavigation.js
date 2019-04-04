@@ -3,42 +3,46 @@ import "./UserNavigation.css";
 import { Link } from "react-router-dom";
 
 export default class UserNavigation extends React.Component {
-    state = { };
-    render() {
-      return (
-        <div className="container text-center usernav-box">
+  state = {};
+  render() {
+    return (
+      <div className="container text-center usernav-box">
         <h1 className="header">Feenix</h1>
-        <p className="app-description text-muted">My App Description</p>
+        <p className="text">
+          Developers way to navigate through the pages easily
+        </p>
+
         <div className="button-container">
-        <div className="tab-content py-4 px-5">
-        
+          <Link to="Signup">
+            <button className="difbutton">Sign Up Page</button>
+          </Link>
+
+          <Link to="Login">
+            <button className="difbutton">Login Page</button>
+          </Link>
+
+          <p></p>
+
+          <Link to="UserSearch">
+            <button className="difbutton">User Search</button>
+          </Link>
+
+          <Link to="EntertainerDashboard">
+            <button className="difbutton">Entertainer Dashboard</button>
+          </Link>
+          
+          <p></p>
+
+          <Link to="CreateProfile">
+            <button className="difbutton">Create Profile Page</button>
+          </Link>
+
+          <Link to="ProfileViewer">
+            <button className="difbutton">Profile Viewer Page</button>
+          </Link>
+        </div>
+        <p></p>
       </div>
-      <Link to="EntertainerDashboard">
-        <button className="button">Entertainer Dashboard</button>
-      </Link>
-      
-      <div>
-      <Link to="UserSearch">
-        <button className="button">User Search</button>
-      </Link>
-      </div>
-      <div>
-      <Link to="CreateProfile">
-        <button className="button">Create Profile Page</button>
-      </Link>
-      </div>
-      <div>
-      <Link to="ProfileViewer">
-        <button className="button">Profile Viewer Page</button>
-      </Link>
-      </div>
-      <div>
-      <Link to="Signup">
-        <button className="button">Sign Up Page</button>
-      </Link>
-      </div>
-      </div>
-      </div>
-      );
-    }
+    );
+  }
 }

@@ -40,6 +40,14 @@ export default class UserNavigation extends React.Component {
           <Link to="ProfileViewer">
             <button className="difbutton">Profile Viewer Page</button>
           </Link>
+
+          <Link to="CreateEntertainerProfile">
+            <button className="difbutton">Create Entertainer Page</button>
+          </Link>
+
+          <Link to="testCreate">
+            <button className="difbutton">Test Create Page</button>
+          </Link>
         </div>
         <p></p>
       </div>

@@ -1,9 +1,66 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./CreateProfile.css";
+import { fire } from './fire';
 
-export default class CreateProfile extends React.Component {
-  state = { userType: "customer" };
+class CreateProfile extends React.Component {
+  constructor() {
+    super();
+    this.ref = fire.firestore().collection('users');
+    this.state = {
+      userType: "customer",
+      firstName: '',
+      surname:'',
+      dob:'',
+      bio:'',
+      picture: '',
+      age:'',
+      category:'',
+      county:'',
+    };
+  }
+  onChange = (e) => {
+    const state = this.state
+    state[e.target.name] = e.target.value;
+    this.setState(state);
+  }
+
+  onTypeChange = (e) => {
+    this.props.history.push("./CreateEntertainerProfile");
+  }
+  onSubmit = (e) => {
+    e.preventDefault();
+
+    const { userType,firstName,surname,dob,bio,picture,age,category,county } = this.state;
+    console.log( userType,firstName,surname,dob,bio,picture,age,category,county);
+    this.ref.add({
+      userType,
+      firstName,
+      surname,
+      dob,
+      bio,
+      picture,
+      age,
+      category,
+      county
+    }).then((docRef) => {
+      this.setState({
+      userType: "customer",
+      firstName: '',
+      surname:'',
+      dob:'',
+      bio:'',
+      picture: '',
+      age:'',
+      category:'',
+      county:'',
+      });
+      this.props.history.push("./UserNavigation");
+    })
+    .catch((error) => {
+      console.error("Error adding document: ", error);
+    });
+  }
   render() {
     return (
       <div className="container text-center search-container">
@@ -17,129 +74,41 @@ export default class CreateProfile extends React.Component {
           <select
             className="form-control"
             // value equals the current value of the userType
-            value={this.state.userType}
+            //value={this.state.userType}
             // sets the state of the claas when the value changes
-            onChange={e => this.setState({ userType: e.target.value })}
+            onChange={this.onTypeChange}
           >
             <option value="customer">Customer</option>
             <option value="entertainer">Entertainer</option>
           </select>
         </div>
-        {/* renders either the cutomer form or the entertainer form depending on the userType state */}
-        {this.state.userType === "customer" ? <Customer /> : <Entertainer />}
+    
+    <form onSubmit={this.onSubmit}>
+      <div className="form-group">
+        <input type="text" className="form-control" name="firstName" value={this.firstName} onChange={this.onChange} placeholder="First Name" />
+      </div>
+      <div className="form-group">
+        <input type="text" className="form-control" name="surname" value={this.surname} onChange={this.onChange} placeholder="Surname" />
+      </div>
+      <div className="form-group">
+        <input type="date" className="form-control" name="age" value={this.age} onChange={this.onChange} placeholder="Age" />
+      </div>
+      <div className="form-group">
+        <textarea type="text" className="form-control" name="bio" value={this.bio} onChange={this.onChange} placeholder="Bio" />
+      </div>
+      <div className="form-group">
+        <input
+          type="file"
+          placeholder="Profile Picture" name="picture" value={this.picture} onChange={this.onChange}
+          className="form-control"
+        />
+      </div>
+      <div>
+      <button className="button">Create customer profile!</button>
+      </div>
+    </form>
       </div>
     );
-  }
 }
-
-function Customer() {
-  return (
-    <>
-      <div className="form-group">
-        <input type="text" className="form-control" placeholder="First Name" />
-      </div>
-      <div className="form-group">
-        <input type="text" className="form-control" placeholder="Surname" />
-      </div>
-      <div className="form-group">
-        <input type="date" className="form-control" placeholder="Age" />
-      </div>
-      <div className="form-group">
-        <textarea type="text" className="form-control" placeholder="Bio" />
-      </div>
-      <div className="form-group">
-        <input
-          type="file"
-          placeholder="Profile Picture"
-          className="form-control"
-        />
-      </div>
-      <button className="button">Create customer profile!</button>
-    </>
-  );
 }
-function Entertainer() {
-  return (
-    <>
-      <div className="form-group">
-        <input type="text" className="form-control" placeholder="Name" />
-      </div>
-      <div className="form-group">
-        <input type="text" className="form-control" placeholder="Age" />
-      </div>
-
-      <div className="form-group">
-        <select className="form-control" placeholder="Category">
-          {[
-            "Category",
-            "Comedy",
-            "Kids",
-            "Magic",
-            "Music",
-          ]
-            // transforms the array of counties to an array of <option>county</option>
-            .map(category => (
-              <option>{category}</option>
-            ))}
-        </select>
-      </div>
-      <div className="form-group">
-        <select className="form-control" placeholder="County">
-          {[
-            "County",
-            "Antrim",
-            "Armagh",
-            "Carlow",
-            "Cavan",
-            "Clare",
-            "Cork",
-            "Derry",
-            "Donegal",
-            "Down",
-            "Dublin",
-            "Fermanagh",
-            "Galway",
-            "Kerry",
-            "Kildare",
-            "Kilkenny",
-            "Laois",
-            "Leitrim",
-            "Limerick",
-            "Longford",
-            "Louth",
-            "Mayo",
-            "Meath",
-            "Monaghan",
-            "Offaly",
-            "Roscommon",
-            "Sligo",
-            "Tipperary",
-            "Tyrone",
-            "Waterford",
-            "Westmeath",
-            "Wexford",
-            "Wicklow"
-          ]
-            // transforms the array of counties to an array of <option>county</option>
-            .map(county => (
-              <option>{county}</option>
-            ))}
-        </select>
-      </div>
-      <div className="form-group">
-        <textarea type="text" className="form-control" placeholder="Bio" />
-      </div>
-      <div className="form-group">
-        <input
-          type="file"
-          placeholder="Profile Picture"
-          className="form-control"
-        />
-      </div>
-      {/* tells the browser router to change the route to EntertainerDashboard */}
-      <Link to="/EntertainerDashboard">
-        <button className="button">Create entertainer profile!</button>
-      </Link>
-    </>
-  );
-}
+export default CreateProfile;

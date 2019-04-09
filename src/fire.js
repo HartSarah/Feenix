@@ -1,8 +1,11 @@
-import firebase from 'firebase/app';
+import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
+import firestore from 'firebase/firestore';
 
+//const settings = {timestampsInSnapshots: true};
   //Initialize Firebase from unique credentials
+
 const config = {
     apiKey: "AIzaSyC4XzLP2PjPLcNh_79xzsdOGOQ-A-E6MlU",
     authDomain: "feenix-5b06d.firebaseapp.com",
@@ -13,6 +16,9 @@ const config = {
   };
  
 const fire =  firebase.initializeApp(config);
+
+//firebase.firestore().settings(settings);
+
 const facebookProvider = new firebase.auth.FacebookAuthProvider();
 
 export  {fire, facebookProvider};

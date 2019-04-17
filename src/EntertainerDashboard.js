@@ -8,7 +8,6 @@ export default function ProfileViewer() {
   return (
     <div>
       <div className="container text-center search-container">
-        <h1 className="search-header">Feenix</h1>
         <p className="text">
           You are looking at your profile! <br/>
           Click on a section to edit it

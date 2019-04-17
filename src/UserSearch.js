@@ -7,7 +7,6 @@ export default class UserSearch extends React.Component {
   render() {
     return (
       <div className="container text-center search-container">
-        <h1 className="search-header">Feenix</h1>
         <p className="text">
           Use the below form to search for an entertainer
         </p>

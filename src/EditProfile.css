@@ -1,0 +1,22 @@
+.header {
+    font-size: 4.5rem;
+    color: #db5243;
+    text-shadow: -1px 0 #db5243, 0 1px #db5243, 1px 0 #db5243, 0 -1px #db5243; 
+}
+
+.form-control {
+    color: #7e7e7e;
+}
+
+.button {
+    border: 1px solid #db5243;
+    border-radius: 5px;
+    padding: 7px;
+    background-color: #db5243;
+    color: white;
+}
+
+.button:hover {
+    background-color:white;
+    color: #7e7e7e;
+}

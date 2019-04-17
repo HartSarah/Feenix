@@ -8,6 +8,7 @@ import EntertainerDashboard from "./EntertainerDashboard";
 import UserSearch from "./UserSearch";
 import SearchResults from "./SearchResults";
 import ProfileViewer from "./ProfileViewer";
+import EditProfile from "./EditProfile";
 import UserNavigation from "./UserNavigation";
 import Home from "./Home";
 import testCreate from "./testCreate";
@@ -72,6 +73,7 @@ class App extends Component {
       <Route path="/UserSearch" component={UserSearch} />
       <Route path="/SearchResults" component={SearchResults} />
       <Route path="/ProfileViewer" component={ProfileViewer} />
+      <Route path="/EditProfile" component={EditProfile} />
       <Route path="/Logout" exact component={Logout} />
       <Route path="/Login" exact component={Login} />
       <Route path="/Signup" component={Signup} />

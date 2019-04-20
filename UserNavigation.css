@@ -1,0 +1,48 @@
+.form {
+    border:1px solid #b1b1b1;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.header {
+    font-size: 4.5rem;
+    color: #db5243;
+    text-shadow: -1px 0 #db5243, 0 1px #db5243, 1px 0 #db5243, 0 -1px #db5243; 
+}
+
+.login-container {
+    width: 540px;
+}
+
+.app-description{
+    margin-top:20px;
+    margin-bottom:60px;
+}
+
+.difbutton {
+    border: 1px solid #db5243;
+    border-radius: 5px;
+    padding: 7px;
+    background-color: #db5243;
+    color: white;
+    margin-left: 5px;
+}
+
+.difbutton:hover {
+    background-color:white;
+    color: #7e7e7e;
+}
+
+.text {
+    color: #7e7e7e;
+}
+
+.button-container {
+    width: 500px;
+    height: 265px;
+}
+
+.usernav-box{
+    width: 530px;
+    height: 470px;
+}

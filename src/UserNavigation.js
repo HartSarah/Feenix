@@ -20,7 +20,8 @@ export default class UserNavigation extends React.Component {
       userProfile: false,
       userEmail: ""
     }
-    this.authListener = this.authListener.bind(this)
+    this.authListener = this.authListener.bind(this);
+    this.handleData = this.handleData.bind(this);
   }
 
   authListener()
@@ -70,40 +71,66 @@ export default class UserNavigation extends React.Component {
 
   displayCreateProfile = () => {
     this.setState({
+        userProfile: false,
         viewPage: "createprofile"
     })
-}
+  }
 
   displayEntertainerDashboard = () => {
-    this.setState({
-        viewPage: "entertainerdashboard"
-    })
-}
+    if (this.state.viewPage != "createprofile"){
+      this.setState({
+          viewPage: "entertainerdashboard"
+      })
+    }
+  }
+
+  displayEditProfile = () => {
+    if (this.state.viewPage != "createprofile"){
+      this.setState({
+          viewPage: "editprofile"
+      })
+    }
+  }
 
   displayUserSearch = () => {
-    this.setState({
-        viewPage: "usersearch"
-    })
-}
+    if (this.state.viewPage != "createprofile"){
+      this.setState({
+          viewPage: "usersearch"
+      })
+    }
+  }
 
   displayProfileViewer = () => {
+    if (true){
+      console.log("profileviewer "+this.state.userProfile);
+      this.setState({
+          viewPage: "profileviewer"
+      })
+    }
+  }
+
+  handleData = (data) => {
     this.setState({
-        viewPage: "profileviewer"
-    })
-}
+      userProfile: data
+    });
+    console.log("handleData"+this.state.userProfile);
+  }
   
   deleteFunction = () => {
-    var confirmation = window.confirm("Are you sure you want to delete your profile?");
-    if (confirmation){
-      var usercur = firebase.auth().currentUser;
+    if (this.state.viewPage != "createprofile"){
+      var confirmation = window.confirm("Are you sure you want to delete your profile?");
+      if (confirmation){
+        var usercur = firebase.auth().currentUser;
 
-      if (usercur) {
-        console.log("delete if");
-        var useremail = usercur.email;
-        var profileRef = this.ref.doc(useremail);
-        var deleteDoc = profileRef.delete();
+        if (usercur) {
+          console.log("delete if");
+          var useremail = usercur.email;
+          var profileRef = this.ref.doc(useremail);
+          var deleteDoc = profileRef.delete();
+        }
         this.setState({
           userProfile: false,
+          viewPage: null
         });
       }
     }
@@ -116,7 +143,7 @@ export default class UserNavigation extends React.Component {
     let deletebutton = null;
     if ( this.state.userProfile === true ) {
       createedit = (
-        <button className="difbutton" onClick={this.displayCreateProfile}>Edit Profile</button>
+        <button className="difbutton" onClick={this.displayEditProfile}>Edit Profile</button>
      );
       deletebutton = (
         <button className="difbutton" onClick={this.deleteFunction}>Delete Your Profile</button>
@@ -135,7 +162,7 @@ export default class UserNavigation extends React.Component {
     if ( this.state.viewPage === "createprofile" ) {
      displayedPage = (
      <div>
-          <CreateProfile loginEmail={useremail}/>
+          <CreateProfile loginEmail={useremail} handlerFromParent={this.handleData}/>
      </div>
      )
     }
@@ -164,6 +191,14 @@ export default class UserNavigation extends React.Component {
      )
     }
 
+     else if ( this.state.viewPage === "editprofile" ) {
+     displayedPage = (
+     <div>
+          <EditProfile loginEmail={useremail}/>
+     </div>
+     )
+    }
+
     return (
       <> 
       <div className="container text-center usernav-box">
@@ -181,45 +216,6 @@ export default class UserNavigation extends React.Component {
             height: 5
         }}/>
         {displayedPage}
-        {/*
-        <div className="button-container">
-          <Link to="Signup">
-            <button className="difbutton">Sign Up Page</button>
-          </Link>
-
-          <Link to="Login">
-            <button className="difbutton">Login Page</button>
-          </Link>
-
-          <p></p>
-
-          <Link to="UserSearch">
-            <button className="difbutton">User Search</button>
-          </Link>
-
-          <Link to="EntertainerDashboard">
-            <button className="difbutton">Entertainer Dashboard</button>
-          </Link>
-          
-          <p></p>
-
-          <Link to="CreateProfile">
-            <button className="difbutton">Create Profile Page</button>
-          </Link>
-
-          <Link to="EditProfile">
-            <button className="difbutton">Edit Profile Page</button>
-          </Link>
-
-          <Link to="CreateEntertainerProfile">
-            <button className="difbutton">Create Entertainer Page</button>
-          </Link>
-
-          <Link to="testCreate">
-            <button className="difbutton">Test Create Page</button>
-          </Link>
-        </div>
-        <p></p>*/}
       </div>
       </>
     );

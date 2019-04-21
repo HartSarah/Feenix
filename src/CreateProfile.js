@@ -7,10 +7,14 @@ class CreateProfile extends React.Component {
   constructor(props) {
     super();
     this.ref = fire.firestore().collection('users');
+    //this.onSubmit = this.onSubmit.bind(this);
+    //this.onChange = this.onChange.bind(this);
+    console.log("createprofile const");
+    console.log(props.handlerFromParent);
     this.state = {
       userProfile: false,
       userEmail: props.loginEmail,
-      userType: "customer",
+      userType: "Customer",
       firstName: '',
       surname:'',
       dob:'',
@@ -21,6 +25,7 @@ class CreateProfile extends React.Component {
       county:'',
     };
   }
+
   onChange = (e) => {
     const state = this.state
     state[e.target.name] = e.target.value;
@@ -30,11 +35,11 @@ class CreateProfile extends React.Component {
   onTypeChange = (e) => {
     //this.props.history.push("./CreateEntertainerProfile");
     var tempTypeVar = this.state.userType;
-    if (tempTypeVar == "entertainer"){
-      tempTypeVar = "customer";
+    if (tempTypeVar == "Entertainer"){
+      tempTypeVar = "Customer";
     }
     else{
-      tempTypeVar = "entertainer";
+      tempTypeVar = "Entertainer";
     }
     this.setState({
       userType: tempTypeVar
@@ -46,7 +51,6 @@ class CreateProfile extends React.Component {
     e.preventDefault();
 
     const { userEmail,userType,firstName,surname,dob,bio,picture,age,category,county } = this.state;
-    const name = firstName;
     console.log( userEmail,userType,firstName,surname,dob,bio,picture,age,category,county);
     this.ref.doc(this.state.userEmail).set({
       userEmail,
@@ -62,7 +66,7 @@ class CreateProfile extends React.Component {
     }).then((docRef) => {
       this.setState({
       userProfile: true,
-      userType: "customer",
+      userType: "Customer",
       firstName: '',
       surname:'',
       dob:'',
@@ -72,7 +76,7 @@ class CreateProfile extends React.Component {
       category:'',
       county:'',
       });
-
+      this.props.handlerFromParent(true);
       //this.props.history.push("./UserNavigation/"+name);
     })
     .catch((error) => {
@@ -98,8 +102,8 @@ class CreateProfile extends React.Component {
             // sets the state of the claas when the value changes
             onChange={this.onTypeChange}
           >
-            <option value="customer">Customer</option>
-            <option value="entertainer">Entertainer</option>
+            <option value="Customer">Customer</option>
+            <option value="Entertainer">Entertainer</option>
           </select>
         </div>
         </div>
@@ -107,10 +111,10 @@ class CreateProfile extends React.Component {
     }
     if (this.state.userProfile === true) {
       displayedPage = (
-        <p>Profile created!</p>
+        <p>Profile created! Press "View Profile" to continue.</p>
         );
     }
-    else if ( this.state.userType === "customer" ) {
+    else if ( this.state.userType === "Customer" ) {
      displayedPage = (
      <div>
       <form onSubmit={this.onSubmit}>
@@ -141,7 +145,7 @@ class CreateProfile extends React.Component {
      )
     }
 
-    else if ( this.state.userType == "entertainer" ) {
+    else if ( this.state.userType == "Entertainer" ) {
      displayedPage = (
      <div>
       <form onSubmit={this.onSubmit}>
@@ -154,7 +158,7 @@ class CreateProfile extends React.Component {
       <div className="form-group">
         <input type="date" className="form-control" name="age" value={this.age} onChange={this.onChange} placeholder="Age" />
       </div>
-            <div className="form-group">
+      <div className="form-group">
         <select className="form-control" name="category" value={this.catagory} onChange={this.onChange} placeholder="Category">
           {[
             "Category",

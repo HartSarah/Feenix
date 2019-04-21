@@ -5,10 +5,12 @@ import { fire } from './fire';
 
 class EditProfile extends React.Component {
   constructor(props) {
-    super(props);
-    //this.ref = fire.firestore().collection('users');
+    super();
+    this.ref = fire.firestore().collection('users');
     this.state = {
-      userType: "customer",
+      userProfile: true,
+      userEmail: props.loginEmail,
+      userType: '',
       firstName: '',
       surname:'',
       dob:'',
@@ -17,46 +19,55 @@ class EditProfile extends React.Component {
       age:'',
       category:'',
       county:'',
+      editComplete: false,
     };
   }
 
-  componentDidMount() {
-  const ref = fire.firestore().collection('users').doc(this.props.match.params.id);
-  ref.get().then((doc) => {
-    if (doc.exists) {
-      const board = doc.data();
-      this.setState({
-        key: doc.id,
-        title: board.title,
-        description: board.description,
-        author: board.author
-      });
-    } else {
-      console.log("No such document!");
-    }
-  });
-}
-/*
+    componentDidMount()
+  {
+    var profileRef = this.ref.doc(this.state.userEmail);
+    var getDoc = profileRef.get()
+    .then(doc => {
+      if (!doc.exists) {
+        console.log('No such document!');
+        const ud = doc.data();
+        this.setState({
+          userProfile: false,
+        });
+      } else {
+        console.log('Document data:', doc.data());
+        const ud = doc.data();
+        this.setState({
+          userType: ud.userType,
+          firstName: ud.firstName,
+          surname: ud.surname,
+          dob:ud.dob,
+          bio:ud.bio,
+          picture: ud.picture,
+          age:ud.age,
+          category:ud.category,
+          county:ud.county,
+        });
+      }
+    })
+    .catch(err => {
+      console.log('Error getting document', err);
+    });
+  }
+
   onChange = (e) => {
     const state = this.state
     state[e.target.name] = e.target.value;
     this.setState(state);
   }
-*/
-  onChange = (e) => {
-    const state = this.state
-    state[e.target.name] = e.target.value;
-    this.setState({board:state});
-  }
 
   onSubmit = (e) => {
     e.preventDefault();
 
-    const { userType,firstName,surname,dob,bio,picture,age,category,county } = this.state;
-    console.log( userType,firstName,surname,dob,bio,picture,age,category,county);
-
-    const updateRef = fire.firestore().collection('boards').doc(this.state.key);
-    updateRef.set({
+    const { userEmail,userType,firstName,surname,dob,bio,picture,age,category,county } = this.state;
+    console.log( userEmail,userType,firstName,surname,dob,bio,picture,age,category,county);
+    this.ref.doc(this.state.userEmail).set({
+      userEmail,
       userType,
       firstName,
       surname,
@@ -68,7 +79,8 @@ class EditProfile extends React.Component {
       county
     }).then((docRef) => {
       this.setState({
-      userType: "customer",
+      userProfile: true,
+      userType: "Customer",
       firstName: '',
       surname:'',
       dob:'',
@@ -77,10 +89,10 @@ class EditProfile extends React.Component {
       age:'',
       category:'',
       county:'',
+      editComplete:true,
       });
-      //this.props.history.push("/show/"+this.props.match.params.id)
-      this.props.history.push("./UserNavigation");
 
+      //this.props.history.push("./UserNavigation/"+name);
     })
     .catch((error) => {
       console.error("Error adding document: ", error);
@@ -88,40 +100,27 @@ class EditProfile extends React.Component {
   }
 
   render() {
-    return (
+    let displayedPage = null;
+    if ( this.state.userType === "Customer" && this.state.editComplete === false ) {
+     displayedPage = (
       <div className="container text-center search-container">
-        <h1 className="header">Feenix</h1>
         <p className="text">
-          Please choose from the drop down if you are a customer or an entertainer <br />
-          Then create your profile
+          Please edit your profile here. Press "View Profile" to cancel edit.
         </p>
-       {/*
-        <div className="form-group">
-          {// changes the state of the class depending on which option is selected //}
-          <select
-            className="form-control"
-            // value equals the current value of the userType
-            //value={this.state.userType}
-            // sets the state of the claas when the value changes
-            onChange={this.onTypeChange}
-          >
-            <option value="customer">Customer</option>
-            <option value="entertainer">Entertainer</option>
-          </select>
-        </div>
-    */}
-    <form onSubmit={this.onSubmit}>
+        <h3>{this.state.userType} Profile</h3>
+     
+     <form onSubmit={this.onSubmit}>
       <div className="form-group">
-        <input type="text" className="form-control" name="firstName" value={this.firstName} onChange={this.onChange} placeholder="First Name" />
+        <input type="text" className="form-control" name="firstName" value={this.firstName} onChange={this.onChange} placeholder={this.state.firstName} />
       </div>
       <div className="form-group">
-        <input type="text" className="form-control" name="surname" value={this.surname} onChange={this.onChange} placeholder="Surname" />
+        <input type="text" className="form-control" name="surname" value={this.surname} onChange={this.onChange} placeholder={this.state.surname} />
       </div>
       <div className="form-group">
-        <input type="date" className="form-control" name="age" value={this.age} onChange={this.onChange} placeholder="Age" />
+        <input type="date" className="form-control" name="age" value={this.age} onChange={this.onChange} placeholder={this.state.age} />
       </div>
       <div className="form-group">
-        <textarea type="text" className="form-control" name="bio" value={this.bio} onChange={this.onChange} placeholder="Bio" />
+        <textarea type="text" className="form-control" name="bio" value={this.bio} onChange={this.onChange} placeholder={this.state.bio} />
       </div>
       <div className="form-group">
         <input
@@ -134,7 +133,112 @@ class EditProfile extends React.Component {
       <button className="button">Edit customer profile!</button>
       </div>
     </form>
+    </div>
+    )}
+
+    else if ( this.state.userType === "Entertainer" && this.state.editComplete === false ) {
+     displayedPage = (
+      <div className="container text-center search-container">
+        <p className="text">
+          Please edit your profile here. Press "View Profile" to cancel edit.
+        </p>
+        <h3>{this.state.userType} Profile</h3>
+  
+     <form onSubmit={this.onSubmit}>
+      <div className="form-group">
+        <input type="text" className="form-control" name="firstName" value={this.firstName} onChange={this.onChange} placeholder={this.state.firstName} />
       </div>
+      <div className="form-group">
+        <input type="text" className="form-control" name="surname" value={this.surname} onChange={this.onChange} placeholder={this.state.surname} />
+      </div>
+      <div className="form-group">
+        <input type="date" className="form-control" name="age" value={this.age} onChange={this.onChange} placeholder={this.state.age} />
+      </div>
+      <div className="form-group">
+        <select className="form-control" name="category" value={this.catagory} onChange={this.onChange} placeholder={this.state.category} >
+          {[
+            "Category",
+            "Comedy",
+            "Kids",
+            "Magic",
+            "Music",
+          ]
+            // transforms the array of counties to an array of <option>county</option>
+            .map(category => (
+              <option>{category}</option>
+            ))}
+        </select>
+      </div>
+      <div className="form-group">
+        <select className="form-control" name="county" value={this.county} onChange={this.onChange}  placeholder={this.state.county} >
+          {[
+            "County",
+            "Antrim",
+            "Armagh",
+            "Carlow",
+            "Cavan",
+            "Clare",
+            "Cork",
+            "Derry",
+            "Donegal",
+            "Down",
+            "Dublin",
+            "Fermanagh",
+            "Galway",
+            "Kerry",
+            "Kildare",
+            "Kilkenny",
+            "Laois",
+            "Leitrim",
+            "Limerick",
+            "Longford",
+            "Louth",
+            "Mayo",
+            "Meath",
+            "Monaghan",
+            "Offaly",
+            "Roscommon",
+            "Sligo",
+            "Tipperary",
+            "Tyrone",
+            "Waterford",
+            "Westmeath",
+            "Wexford",
+            "Wicklow"
+          ]
+            // transforms the array of counties to an array of <option>county</option>
+            .map(county => (
+              <option>{county}</option>
+            ))}
+        </select>
+      </div>
+      <div className="form-group">
+        <textarea type="text" className="form-control" name="bio" value={this.bio} onChange={this.onChange} placeholder={this.state.bio} />
+      </div>
+      <div className="form-group">
+        <input
+          type="file"
+          placeholder="Profile Picture" name="picture" value={this.picture} onChange={this.onChange}
+          className="form-control"
+        />
+      </div>
+      <div>
+      <button className="button">Edit entertainer profile!</button>
+      </div>
+    </form>
+    </div>
+    )}
+
+    else if ( this.state.editComplete === true ) {
+      displayedPage = (
+        <p>Your profile has been updated! Press "View Profile".</p>
+        )
+    }
+
+    return (
+      <>
+      {displayedPage}
+      </>
     );
 }
 }

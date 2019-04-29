@@ -1,0 +1,43 @@
+.appHeader {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between 5px;
+  border-width: 1px 0px;
+  border-style: solid;
+  border-color: lightgray;
+  padding: 5px 0;
+  /* margin: 0 -5px; */
+  font-size: 18px;
+  color: gray;
+  align-items: center;
+}
+.appHeader > * {
+  margin: 0 5px;
+}
+.appHeader img {
+  height: 60px;
+  border-radius: 50%;
+}
+.profileImg{
+    cursor: pointer;
+}
+.becomeEntertainerButton, .searchButton {
+  border-width: 0 1px;
+  border-style: solid;
+  padding: 5px;
+  border-color: lightgray;
+  cursor: pointer;
+}
+.menuToggle {
+  position: relative;
+}
+.menuBody {
+  position: absolute;
+  right: 0;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}

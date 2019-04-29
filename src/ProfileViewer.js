@@ -2,81 +2,29 @@ import React from "react";
 import { DayPickerSingleDateController } from "react-dates";
 import "react-dates/lib/css/_datepicker.css";
 import "./ProfileViewer.css";
-import { fire } from './fire';
+import { UserProfileContext } from "./components/EnsureProfile";
 
 class ProfileViewer extends React.Component {
-  constructor(props) {
-    super();
-    this.ref = fire.firestore().collection('users');
-    this.state = {
-      userProfile: true,
-      userEmail: props.loginEmail,
-      userType: '',
-      firstName: '',
-      surname:'',
-      dob:'',
-      bio:'',
-      picture: '',
-      age:'',
-      category:'',
-      county:'',
-    };
-  }
-
-    componentDidMount()
-  {
-    var profileRef = this.ref.doc(this.state.userEmail);
-    var getDoc = profileRef.get()
-    .then(doc => {
-      if (!doc.exists) {
-        console.log('No such document!');
-        const ud = doc.data();
-        this.setState({
-          userProfile: false,
-        });
-      } else {
-        console.log('Document data:', doc.data());
-        const ud = doc.data();
-        this.setState({
-          userType: ud.userType,
-          firstName: ud.firstName,
-          surname: ud.surname,
-          dob:ud.dob,
-          bio:ud.bio,
-          picture: ud.picture,
-          age:ud.age,
-          category:ud.category,
-          county:ud.county,
-        });
-      }
-    })
-    .catch(err => {
-      console.log('Error getting document', err);
-    });
-  }
-
-//seperate displays needed for customer and entertainer.
   render() {
-    console.log(this.state.surname);
-    if(this.state.userProfile === true){
-      return (
-        <>
-          <div>
-            <h2>{this.state.userType}</h2>
-            <p>Name: {this.state.firstName} {this.state.surname} </p>
-            <p>County: {this.state.county}</p>
-            <p>D.O.B.: {this.state.age}</p>
-            <p>Your Bio: {this.state.bio}</p>
-            <p>{this.state.picture}</p>
-          </div>
-         </>
-      );
-    }
-    else{
-      return (
-        <p>No user profile found! Create a profile by clicking "Create New Profile"</p>
-        );
-    }
+    return (
+      <UserProfileContext.Consumer>
+        {profile => (
+          <>
+            <div className="container profile-container login-container text-center ">
+            <h3 className="text-danger">Profile</h3>
+              <h4>{profile.userType}</h4>
+              <p>
+                Name: {profile.firstName} {profile.surname}
+              </p>
+              <p>County: {profile.county}</p>
+              <p>D.O.B.: {profile.dob}</p>
+              <p>Your Bio: {profile.bio}</p>
+              {<img className="profo" src = {profile.picture}/>}
+            </div>
+          </>
+        )}
+      </UserProfileContext.Consumer>
+    );
   }
 }
 export default ProfileViewer;

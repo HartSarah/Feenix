@@ -1,6 +1,6 @@
 import React, { Component } from "react";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
-import Login from "./components/Login";
 import CreateProfile from "./CreateProfile";
 import CreateEntertainerProfile from "./CreateEntertainerProfile";
 import Logout from "./components/Logout";
@@ -10,78 +10,57 @@ import SearchResults from "./SearchResults";
 import ProfileViewer from "./ProfileViewer";
 import EditProfile from "./EditProfile";
 import UserNavigation from "./UserNavigation";
-import Home from "./Home";
 import testCreate from "./testCreate";
-
-import { BrowserRouter, Route } from "react-router-dom";
-import { Spinner } from '@blueprintjs/core';
-import { fire } from './fire'
-import Signup from "./components/Signup";
-
+import EnsureLogin from "./components/EnsureLogin";
+import EnsureProfile from "./components/EnsureProfile";
+import AppHeader from "./AppHeader";
+import Account from "./Account";
+import Bookings from "./Bookings";
+import Favourites from "./favourites";
+import { fire } from "./fire";
 
 class App extends Component {
-  constructor() {
-    super();
-   // this.setCurrentUser = this.setCurrentUser.bind(this);
-    this.state = {
-      authenticated: false,
-      loading: true,
-    };
-  }
-
-  //WHEN IN APP 
-  componentWillMount() {
-    this.removeAuthListener = fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({
-          authenticated: true,
-          loading: false,
-        })
-
-      } else {
-        this.setState({
-          authenticated: false,
-          loading: false, 
-        })
-      }
-    })
-  }
-//WHEN YOU LEAVE APP
-  componentWillUnmount(){
-    this.removeAuthListener();
-  }
-
- 
-
   render() {
-    if(this.state.loading === true){
-      return (
-        <div style={{ textAlign: "center", position: "absolute", top: "25%", left: "50%" }}>
-          <h3>Loading</h3>
-          <Spinner />
-        </div>
-      )
-
-    }
     return (
-    <BrowserRouter>
-    <>
-      <Route path="" exact component={Login} />
-      <Route path="/CreateProfile" component={CreateProfile} />
-      <Route path="/CreateEntertainerProfile" component={CreateEntertainerProfile} />
-      <Route path="/EntertainerDashboard" component={EntertainerDashboard}/>
-      <Route path="/UserSearch" component={UserSearch} />
-      <Route path="/SearchResults" component={SearchResults} />
-      <Route path="/ProfileViewer" component={ProfileViewer} />
-      <Route path="/EditProfile" component={EditProfile} />
-      <Route path="/Logout" exact component={Logout} />
-      <Route path="/Login" exact component={Login} />
-      <Route path="/Signup" component={Signup} />
-      <Route path="/UserNavigation" component={UserNavigation} />
-      <Route path="/Home" component={Home} />
-      <Route path="/testCreate" component={testCreate} />
-    </>
-    </BrowserRouter>
+      <BrowserRouter>
+        <>
+          <div className="text-center text-danger">
+            <h1 className="header">Feenix</h1>
+            <p className="app-decription text-muted">My App Description</p>
+          </div>
+          <EnsureLogin>
+            <EnsureProfile>
+              <AppHeader />
+              <Switch>
+                {/* <Route path="/CreateProfile" component={CreateProfile} /> */}
+                <Route
+                  path="/CreateEntertainerProfile"
+                  component={CreateEntertainerProfile}
+                />
+                <Route
+                  path="/EntertainerDashboard"
+                  component={EntertainerDashboard}
+                />
+                <Route path="/Search" component={UserSearch} />
+                <Route path="/SearchResults" component={SearchResults} />
+                <Route path="/Profile" component={ProfileViewer} />
+                <Route path="/Logout" exact component={Logout} />
+                <Route path="/UserNavigation" component={UserNavigation} />
+                <Route path="/Account" component={Account} />
+                <Route path="/Bookings" component={Bookings} />
+                <Route path ="/Favourites" component={Favourites}/>
+                <Route path="/EditProfile">
+                  {() => (
+                    <EditProfile loginEmail={fire.auth().currentUser.email} />
+                  )}
+                </Route>
+                <Route path="/testCreate" component={testCreate} />
+                <Route path="" component={() => <Redirect to="/Profile" />} />
+              </Switch>
+            </EnsureProfile>
+          </EnsureLogin>
+        </>
+      </BrowserRouter>
     );
   }
 }

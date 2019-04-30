@@ -94,6 +94,43 @@ class UserSearch extends React.Component {
     });
     this.closeModal();
   };
+
+  makeFavourite = async () => {
+    const user = fire.auth().currentUser.email;
+    const users = fire.firestore().collection("/users");
+
+    //const firstName = this.state.firstName;
+    // const category = this.state.category;
+    // const county = this.state.county;
+    const entertainer = this.state.entertainerEmail;
+   
+    const userData = await users.doc(user).get();
+    await users.doc(user).update({
+      favourites: [
+        ...(userData.data().favourites || []),
+        // { entertainer, email: this.state.entertainerEmail}
+        { entertainer, date: this.state.bookingDate }
+      ]
+    });
+    // const entertainerData = await users.doc(entertainer).get();
+    // await users.doc(entertainer).update({
+    //   bookingRequests: [
+    //     ...(entertainerData.data().bookingRequests || []),
+    //     { user, date: this.state.bookingDate }
+    //   ]
+    // });
+    this.closeModal();
+  };
+
+
+
+
+
+
+
+
+
+
   openModal = user =>
     this.setState({ modalOpen: true, entertainerEmail: user });
   closeModal = () => this.setState({ modalOpen: false });
@@ -142,23 +179,46 @@ class UserSearch extends React.Component {
                     <div class="modal-footer">
                       <button
                         type="button"
+                        class="button"
+                        onClick={() => this.makeBooking()}
+                      >
+                        Book Now
+                      </button>
+
+                      {/* JPCode */}
+                      <button
+                        type="button"
+                        class="favbutton"
+                        onClick={() => this.makeFavourite()}
+                      >
+                        Add to Favourites
+                      </button>
+                      {/* JPCode */}
+
+                      <button
+                        type="button"
                         class="btn btn-secondary"
                         data-dismiss="modal"
                         onClick={this.closeModal}
                       >
                         Cancel
                       </button>
-                      <button
-                        type="button"
-                        class="button"
-                        onClick={() => this.makeBooking()}
-                      >
-                        Book Now
-                      </button>
+
+
                     </div>
                   </div>
                 </div>
               </div>
+
+              {/*  */}
+                  {/*  */}
+
+
+
+                  
+                      {/*  */}
+                        {/*  */}
+
               <div className="modal-backdrop show" />
             </>
           ) : null}
@@ -187,8 +247,20 @@ class UserSearch extends React.Component {
                           this.openModal(returnedProfile.data().userEmail)
                         }
                       >
-                        Book Now
+                        Options
                       </button>
+
+                      {/* JPCode */}
+                      {/* <div class="divider" />
+                      <button
+                        className="favbutton"
+                        onClick={() => 
+                          this.makeFavourite()
+                        }
+                      >
+                        Add to Favourites
+                      </button> */}
+                      {/* JPCode */}
                     </td>
                     <td />
                   </tr>

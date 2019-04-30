@@ -29,3 +29,17 @@
 .text {
   color: #7e7e7e;
 }
+
+.favbutton {
+  border: 1px solid#228b22;
+  border-radius: 5px;
+  padding: 7px;
+  background-color: #228b22;
+  color: white;
+}
+
+.divider{
+  width:5px;
+  height:auto;
+  display:inline-block;
+}

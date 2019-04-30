@@ -3,6 +3,8 @@ import "./UserSearch.css";
 import { fire } from "./fire";
 import { auth } from "firebase";
 
+/*This page allows the user to search the database and then book an entertainer */
+
 class UserSearch extends React.Component {
   constructor() {
     super();
@@ -27,19 +29,28 @@ class UserSearch extends React.Component {
 
   searchDB = e => {
     e.preventDefault();
-    var returnedProfiles = [];
-    console.log("searchDB" + this.state.county);
-    if (this.state.county === "" && this.state.category === "") {
-      var query = this.ref;
+    var returnedProfiles = []; //variable to hold profiles found by the search
+    
+    //creates query based on user inputs.
+    //Will search by surname if that field is filled in.
+    //Other will search by county, category or both as appropriate.
+    //All results filtered to return only entertainers.
+    if (this.state.searchText != ""){
+      var query = this.ref.where("surname","==",this.state.searchText).where("userType", "==", "entertainer");
+    } else if (this.state.county === "" && this.state.category === "") {
+      var query = this.ref.where("userType", "==", "entertainer");
     } else if (this.state.category === "") {
-      var query = this.ref.where("county", "==", this.state.county);
+      var query = this.ref.where("county", "==", this.state.county).where("userType", "==", "entertainer");
     } else if (this.state.county === "") {
-      var query = this.ref.where("category", "==", this.state.category);
+      var query = this.ref.where("category", "==", this.state.category).where("userType", "==", "entertainer");
     } else {
       var query = this.ref
         .where("county", "==", this.state.county)
-        .where("category", "==", this.state.category);
+        .where("category", "==", this.state.category)
+        .where("userType", "==", "entertainer");
     }
+
+    //search the databse for profiles using the query created above.
     var query2 = query
       .get()
       .then(results => {
@@ -47,8 +58,8 @@ class UserSearch extends React.Component {
           console.log("No matching documents.");
           this.setState({
             searchResults: true
-          });
-        }
+          }); //if there are no profiles found the searchResults state is set to true.
+        }     //This true value will cause a "no profiles found" message to be displayed (in render() method).
 
         results.forEach(doc => {
           console.log(doc.id, "=>", doc.data());
@@ -57,19 +68,20 @@ class UserSearch extends React.Component {
         this.setState({
           searchResults: true,
           returnedProfiles: returnedProfiles
-        });
+        }); //returnedProfiles state updated with found profiles. search results set to true. Page re-rendered.
       })
       .catch(err => {
         console.log("Error getting documents", err);
       });
   };
-
+  //function to reset the page when the "new search button is pressed". searchResults set to false.
   newSearch = () => {
     console.log("new search");
     this.setState({
       searchResults: false,
       category: "",
-      county: ""
+      county: "",
+      searchText:""
     });
   };
   makeBooking = async () => {
@@ -135,7 +147,7 @@ class UserSearch extends React.Component {
     this.setState({ modalOpen: true, entertainerEmail: user });
   closeModal = () => this.setState({ modalOpen: false });
   render() {
-    if (
+    if ( //this case is when a search has taken place (searchResults == true) but no profiles were found in the database.
       this.state.searchResults === true &&
       this.state.returnedProfiles.length === 0
     ) {
@@ -147,10 +159,10 @@ class UserSearch extends React.Component {
           </button>
         </div>
       );
-    } else if (this.state.searchResults === true) {
+    } else if (this.state.searchResults === true) { //search has taken place and profiles information needs to be displayed.
       return (
         <>
-          {this.state.modalOpen ? (
+          {this.state.modalOpen ? ( //open booking/favorites/cancel modal if openModal (options) button is clicked.
             <>
               <div class="modal d-block" tabIndex="-1" role="dialog">
                 <div class="modal-dialog d-block" role="document">
@@ -242,6 +254,7 @@ class UserSearch extends React.Component {
                     <td>{returnedProfile.data().county}</td>
                     <td>
                       <button
+                      //button to open modal. The relevent entertainer email is passed to the openModal method.
                         className="button"
                         onClick={() =>
                           this.openModal(returnedProfile.data().userEmail)
@@ -285,19 +298,20 @@ class UserSearch extends React.Component {
           </div>
         </>
       );
-    } else {
+    } else { //no search has taken place. Search input boxes are displayed.
       return (
         <form onSubmit={this.searchDB}>
           <div className="container text-center search-container">
             <p className="text">
-              Use the below form to search for an entertainer
+              Enter the surname of the entertainer and press search.
+              Or you can you can use the filters to find the right type of entertainer in your area!!
             </p>
             <div className="search-box">
               <div className="tab-content py-4 px-5">
                 <div className="form-group">
                   <input
                     type="search"
-                    placeholder="Search by name"
+                    placeholder="Search by surname"
                     className="form-control"
                     name="searchText"
                     value={this.searchText}

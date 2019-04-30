@@ -242,10 +242,10 @@ class EditProfile extends React.Component {
                 name="category"
                 value={this.catagory}
                 onChange={this.onChange}
-                placeholder={this.state.category}
               >
-                {["Category", "Comedy", "Kids", "Magic", "Music"]
+                {[this.state.category, "Comedy", "Kids", "Magic", "Music"]
                   // transforms the array of counties to an array of <option>county</option>
+                  // this.state.category 
                   .map(category => (
                     <option>{category}</option>
                   ))}
@@ -257,10 +257,9 @@ class EditProfile extends React.Component {
                 name="county"
                 value={this.county}
                 onChange={this.onChange}
-                placeholder={this.state.county}
               >
                 {[
-                  "County",
+                  this.state.county,
                   "Antrim",
                   "Armagh",
                   "Carlow",

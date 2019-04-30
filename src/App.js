@@ -26,7 +26,7 @@ class App extends Component {
         <>
           <div className="text-center text-danger">
             <h1 className="header">Feenix</h1>
-            <p className="app-decription text-muted">My App Description</p>
+            <p className="app-decription text-muted"></p>
           </div>
           <EnsureLogin>
             <EnsureProfile>

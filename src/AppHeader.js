@@ -32,7 +32,6 @@ export default class AppHeader extends Component {
                 </div>
               ) : null}
             </div>
-            <div className="becomeEntertainerButton">Become an Entertainer</div>
             <div className="flex-grow-1" />
             <div className="searchButton">
               <NavLink to="/Search">Search</NavLink>

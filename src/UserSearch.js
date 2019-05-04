@@ -152,7 +152,7 @@ class UserSearch extends React.Component {
       this.state.returnedProfiles.length === 0
     ) {
       return (
-        <div>
+        <div class="noResults">
           <p>No results found for this search!</p>
           <button className="difbutton" onClick={this.newSearch}>
             New Search
@@ -180,12 +180,13 @@ class UserSearch extends React.Component {
                       </button>
                     </div>
                     <div class="modal-body">
-                      <input
+                      <input 
                         type="date"
                         value={this.state.bookingDate}
                         onChange={e =>
                           this.setState({ bookingDate: e.target.value })
                         }
+                        required
                       />
                     </div>
                     <div class="modal-footer">

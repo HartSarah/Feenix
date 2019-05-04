@@ -21,7 +21,7 @@
 .profileImg{
     cursor: pointer;
 }
-.becomeEntertainerButton, .searchButton {
+.searchButton {
   border-width: 0 1px;
   border-style: solid;
   padding: 5px;
@@ -40,4 +40,17 @@
   display: flex;
   flex-direction: column;
   padding: 5px;
+}
+
+.menuBody a, .searchButton a {
+  color: #db5243;
+}
+
+.menuBody a:hover, .searchButton a:hover {
+  color: #7e7e7e;
+  text-decoration: none;
+}
+
+a.button:hover {
+  text-decoration: none;
 }

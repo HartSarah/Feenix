@@ -1,7 +1,9 @@
 import React from "react";
 import { fire } from "./fire";
+import { NavLink } from "react-router-dom";
 import { UserProfileContext } from "./components/EnsureProfile";
 import { Link } from "react-router-dom";
+import "./Account.css";
 
 export default class Account extends React.Component {
   deleteProfile({ userEmail }) {
@@ -22,15 +24,19 @@ export default class Account extends React.Component {
       <UserProfileContext.Consumer>
         {context => (
           <>
-            <button
-              className="button"
-              onClick={() => this.deleteProfile(context)}
-            >
-              Delete your account
+            <div class="buttonMenu">
+              <p>
+                <button
+                  className="button"
+                  onClick={() => this.deleteProfile(context)}
+                >
+                  Delete your account
             </button>
-            <button className="button">
-              <Link to="/EditProfile">Edit Profile</Link>
-            </button>
+              </p>
+              <p>
+                <Link class="button" to="/EditProfile">Edit Profile</Link>
+              </p>
+            </div>
           </>
         )}
       </UserProfileContext.Consumer>

@@ -75,11 +75,11 @@ class Login extends Component {
           />
         </div>
         <div className="form-group">
-          <button className="btn btn-dark" onClick={this.authWithEmailPassword}>
+          <button className="button" onClick={this.authWithEmailPassword}>
             Log In
           </button>
         </div>
-        <button className="btn btn-dark" onClick={this.authWithFacebook}>
+        <button className="button" onClick={this.authWithFacebook}>
           Log In With Facebook
         </button>
       </div>

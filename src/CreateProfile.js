@@ -202,6 +202,7 @@ function Entertainer({
           <option>{category}</option>
         ))}
       </select>
+      <p></p>
       <div className="form-group">
         <select
           className="form-control"
@@ -266,6 +267,7 @@ function Entertainer({
           type="file"
           placeholder="Profile Picture"
           className="form-control"
+          name="picture"
           onChange={setPicture}
         />
       </div>

@@ -43,3 +43,8 @@
   height:auto;
   display:inline-block;
 }
+
+.noResults {
+  color: #7e7e7e;
+  text-align: center;
+}

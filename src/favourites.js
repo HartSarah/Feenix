@@ -6,7 +6,7 @@ export default function Bookings() {
     <UserProfileContext.Consumer>
       {({ favourites = [] }) => (
         <div className="container">
-          <h3 className="text-danger text-center">Favourites (under construction) </h3>
+          <h3 className="text-danger text-center">Favourites</h3>
           <table className="table table-stripe">
             <thead>
               <tr>

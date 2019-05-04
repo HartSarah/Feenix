@@ -2,6 +2,7 @@ import React from "react";
 import "./UserSearch.css";
 import { fire } from "./fire";
 import { auth } from "firebase";
+import { Link } from "react-router-dom";
 
 /*This page allows the user to search the database and then book an entertainer */
 
@@ -30,13 +31,13 @@ class UserSearch extends React.Component {
   searchDB = e => {
     e.preventDefault();
     var returnedProfiles = []; //variable to hold profiles found by the search
-    
+
     //creates query based on user inputs.
     //Will search by surname if that field is filled in.
     //Other will search by county, category or both as appropriate.
     //All results filtered to return only entertainers.
-    if (this.state.searchText != ""){
-      var query = this.ref.where("surname","==",this.state.searchText).where("userType", "==", "entertainer");
+    if (this.state.searchText != "") {
+      var query = this.ref.where("surname", "==", this.state.searchText).where("userType", "==", "entertainer");
     } else if (this.state.county === "" && this.state.category === "") {
       var query = this.ref.where("userType", "==", "entertainer");
     } else if (this.state.category === "") {
@@ -81,7 +82,7 @@ class UserSearch extends React.Component {
       searchResults: false,
       category: "",
       county: "",
-      searchText:""
+      searchText: ""
     });
   };
   makeBooking = async () => {
@@ -115,7 +116,7 @@ class UserSearch extends React.Component {
     // const category = this.state.category;
     // const county = this.state.county;
     const entertainer = this.state.entertainerEmail;
-   
+
     const userData = await users.doc(user).get();
     await users.doc(user).update({
       favourites: [
@@ -134,14 +135,18 @@ class UserSearch extends React.Component {
     this.closeModal();
   };
 
+  viewProfile = async () => {
+    const users = fire.firestore().collection("/users");
+    const entertainer = this.state.entertainerEmail;
 
-
-
-
-
-
-
-
+    const userData = await users.doc(entertainer).get();
+    
+    return (
+      <>
+        <div>Test</div>
+      </>
+    )
+  };
 
   openModal = user =>
     this.setState({ modalOpen: true, entertainerEmail: user });
@@ -180,16 +185,22 @@ class UserSearch extends React.Component {
                       </button>
                     </div>
                     <div class="modal-body">
-                      <input 
+                      <input
                         type="date"
                         value={this.state.bookingDate}
                         onChange={e =>
                           this.setState({ bookingDate: e.target.value })
                         }
-                        required
-                      />
+                        required></input>
                     </div>
                     <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="button"
+                        onClick={() => this.viewProfile()}
+                      >
+                        View Profile
+                      </button>
                       <button
                         type="button"
                         class="button"
@@ -224,13 +235,13 @@ class UserSearch extends React.Component {
               </div>
 
               {/*  */}
-                  {/*  */}
+              {/*  */}
 
 
 
-                  
-                      {/*  */}
-                        {/*  */}
+
+              {/*  */}
+              {/*  */}
 
               <div className="modal-backdrop show" />
             </>
@@ -255,7 +266,7 @@ class UserSearch extends React.Component {
                     <td>{returnedProfile.data().county}</td>
                     <td>
                       <button
-                      //button to open modal. The relevent entertainer email is passed to the openModal method.
+                        //button to open modal. The relevent entertainer email is passed to the openModal method.
                         className="button"
                         onClick={() =>
                           this.openModal(returnedProfile.data().userEmail)

@@ -21,7 +21,7 @@
 .profileImg{
     cursor: pointer;
 }
-.searchButton {
+.becomeEntertainerButton, .searchButton {
   border-width: 0 1px;
   border-style: solid;
   padding: 5px;

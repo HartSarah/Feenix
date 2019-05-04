@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import "./AppHeader.css";
 import { UserProfileContext } from "./components/EnsureProfile";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
@@ -20,7 +20,7 @@ export default class AppHeader extends Component {
               {profile.picture ? (
                 <img src={profile.picture} className="profileImg" />
               ) : (
-                <div className="fa fa-user"></div>
+                <div className="fa fa-user" />
               )}
               {this.state.navOpen ? (
                 <div className="menuBody">
@@ -31,6 +31,13 @@ export default class AppHeader extends Component {
                   <NavLink to="/Logout">Logout</NavLink>
                 </div>
               ) : null}
+            </div>
+            <div className="becomeEntertainerButton">
+              {profile.userType == "customer" ? (
+                <Link to="CreateEntertainerProfile">Become an Entertainer</Link>
+              ) : (
+                <Link to="EntertainerDashboard">Entertainer Dashboard</Link>
+              )}
             </div>
             <div className="flex-grow-1" />
             <div className="searchButton">

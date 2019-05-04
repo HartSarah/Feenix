@@ -154,7 +154,8 @@ function Entertainer({
   onChange,
   firstName,
   surname,
-  age,
+  entertainerName,
+  dob,
   category,
   county,
   bio
@@ -183,11 +184,20 @@ function Entertainer({
       </div>
       <div className="form-group">
         <input
+          type="date"
+          className="form-control"
+          value={dob}
+          name="dob"
+          onChange={onChange}
+        />
+      </div>
+      <div className="form-group">
+        <input
           type="text"
           className="form-control"
-          placeholder="Age"
-          value={age}
-          name="age"
+          placeholder="Entertainer Name"
+          value={entertainerName}
+          name="entertainerName"
           onChange={onChange}
         />
       </div>

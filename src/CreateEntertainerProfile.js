@@ -7,14 +7,11 @@ import { fire } from './fire';
 class CreateEntertainerProfile extends React.Component {
   constructor() {
     super();
-    this.ref = fire.firestore().collection('users');
+    this.ref = fire.firestore().collection('/users');
     this.state = {
       userType: "entertainer",
-      firstName: '',
-      surname:'',
-      dob:'',
+      entertainerName:'',
       bio:'',
-      picture: '',
       age:'',
       category:'',
       county:'',
@@ -27,33 +24,25 @@ class CreateEntertainerProfile extends React.Component {
   }
 
   onTypeChange = (e) => {
-    this.props.history.push("./CreateProfile");
+    this.props.history.push("/CreateProfile");
   }
 
   onSubmit = (e) => {
     e.preventDefault();
 
-    const { userType,firstName,surname,dob,bio,picture,age,category,county } = this.state;
-    console.log( userType,firstName,surname,dob,bio,picture,age,category,county);
-    this.ref.add({
+    const { userType,bio,category,county,entertainerName } = this.state;
+    console.log( userType,entertainerName,bio,category,county);
+    this.ref.doc(fire.auth().currentUser.email).update({
       userType,
-      firstName,
-      surname,
-      dob,
+      entertainerName,
       bio,
-      picture,
-      age,
       category,
       county
     }).then((docRef) => {
       this.setState({
       userType: "entertainer",
-      firstName: '',
-      surname:'',
-      dob:'',
+      entertainerName:'',
       bio:'',
-      picture: '',
-      age:'',
       category:'',
       county:'',
       });
@@ -89,13 +78,7 @@ class CreateEntertainerProfile extends React.Component {
     
     <form onSubmit={this.onSubmit}>
       <div className="form-group">
-        <input type="text" className="form-control" name="firstName" value={this.firstName} onChange={this.onChange} placeholder="First Name" />
-      </div>
-      <div className="form-group">
-        <input type="text" className="form-control" name="surname" value={this.surname} onChange={this.onChange} placeholder="Surname" />
-      </div>
-      <div className="form-group">
-        <input type="date" className="form-control" name="age" value={this.age} onChange={this.onChange} placeholder="Age" />
+        <input type="text" className="form-control" name="entertainerName" value={this.entertainerName} onChange={this.onChange} placeholder="Entertainer Name" />
       </div>
             <div className="form-group">
         <select className="form-control" name="category" value={this.catagory} onChange={this.onChange} placeholder="Category">
@@ -157,13 +140,6 @@ class CreateEntertainerProfile extends React.Component {
       </div>
       <div className="form-group">
         <textarea type="text" className="form-control" name="bio" value={this.bio} onChange={this.onChange} placeholder="Bio" />
-      </div>
-      <div className="form-group">
-        <input
-          type="file"
-          placeholder="Profile Picture" name="picture" value={this.picture} onChange={this.onChange}
-          className="form-control"
-        />
       </div>
       <div>
         <button className="button">Create Entertainer profile!</button>

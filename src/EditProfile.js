@@ -16,7 +16,6 @@ class EditProfile extends React.Component {
       dob: "",
       bio: "",
       picture: "",
-      age: "",
       category: "",
       county: "",
       editComplete: false
@@ -44,7 +43,6 @@ class EditProfile extends React.Component {
             dob: ud.dob,
             bio: ud.bio,
             picture: ud.picture,
-            age: ud.age,
             category: ud.category,
             county: ud.county
           });
@@ -60,8 +58,16 @@ class EditProfile extends React.Component {
     state[e.target.name] = e.target.value;
     this.setState(state);
   };
+  setPicture = e => {
+    var reader = new FileReader();
 
-  onSubmit = e => {
+    reader.onload = () => {
+      this.setState({ picture: reader.result });
+    };
+
+    reader.readAsDataURL(this.state.picture);
+  };
+  onSubmit = (e) => {
     e.preventDefault();
 
     const {
@@ -72,7 +78,6 @@ class EditProfile extends React.Component {
       dob,
       bio,
       picture,
-      age,
       category,
       county
     } = this.state;
@@ -84,7 +89,6 @@ class EditProfile extends React.Component {
       dob,
       bio,
       picture,
-      age,
       category,
       county
     );
@@ -98,7 +102,6 @@ class EditProfile extends React.Component {
         dob,
         bio,
         picture,
-        age,
         category,
         county
       })
@@ -111,7 +114,6 @@ class EditProfile extends React.Component {
           dob: "",
           bio: "",
           picture: "",
-          age: "",
           category: "",
           county: "",
           editComplete: true
@@ -159,16 +161,6 @@ class EditProfile extends React.Component {
               />
             </div>
             <div className="form-group">
-              <input
-                type="date"
-                className="form-control"
-                name="age"
-                value={this.age}
-                onChange={this.onChange}
-                placeholder={this.state.age}
-              />
-            </div>
-            <div className="form-group">
               <textarea
                 type="text"
                 className="form-control"
@@ -184,7 +176,7 @@ class EditProfile extends React.Component {
                 placeholder="Profile Picture"
                 name="picture"
                 value={this.picture}
-                onChange={this.onChange}
+                onChange={this.setPicture}
                 className="form-control"
               />
             </div>
@@ -227,20 +219,10 @@ class EditProfile extends React.Component {
               />
             </div>
             <div className="form-group">
-              <input
-                type="date"
-                className="form-control"
-                name="age"
-                value={this.age}
-                onChange={this.onChange}
-                placeholder={this.state.age}
-              />
-            </div>
-            <div className="form-group">
               <select
                 className="form-control"
                 name="category"
-                value={this.catagory}
+                value={this.category}
                 onChange={this.onChange}
               >
                 {[this.state.category, "Comedy", "Kids", "Magic", "Music"]
@@ -315,7 +297,7 @@ class EditProfile extends React.Component {
                 placeholder="Profile Picture"
                 name="picture"
                 value={this.picture}
-                onChange={this.onChange}
+                onChange={this.setPicture}
                 className="form-control"
               />
             </div>

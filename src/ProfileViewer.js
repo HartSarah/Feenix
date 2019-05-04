@@ -16,10 +16,13 @@ class ProfileViewer extends React.Component {
               <p>
                 Name: {profile.firstName} {profile.surname}
               </p>
-              <p>County: {profile.county}</p>
               <p>D.O.B.: {profile.dob}</p>
               <p>Your Bio: {profile.bio}</p>
-              {<img className="profo" src = {profile.picture}/>}
+              {profile.picture ? (
+                <img src={profile.picture} className="profo" />
+              ) : (
+                <div className="fa fa-user" />
+              )}
             </div>
           </>
         )}

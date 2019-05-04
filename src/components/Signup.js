@@ -53,7 +53,7 @@ export default class Signup extends Component {
             onChange={this.onChange}
           />
         </div>
-        <button className="btn btn-dark" onClick={this.authWithEmailPassword}>
+        <button className="button" onClick={this.authWithEmailPassword}>
           Sign Up
         </button>
       </div>

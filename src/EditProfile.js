@@ -94,7 +94,7 @@ class EditProfile extends React.Component {
     );
     this.ref
       .doc(this.state.userEmail)
-      .set({
+      .update({
         userEmail,
         userType,
         firstName,

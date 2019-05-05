@@ -4,7 +4,8 @@ import { fire } from "./fire";
 import { auth } from "firebase";
 import { Link } from "react-router-dom";
 
-/*This page allows the user to search the database and then book an entertainer */
+/*This page allows the user to search the database and then book an entertainer
+  The user can then book or favourite an entertainer found by the search. */
 
 class UserSearch extends React.Component {
   constructor() {
@@ -33,24 +34,20 @@ class UserSearch extends React.Component {
     var returnedProfiles = []; //variable to hold profiles found by the search
 
     //creates query based on user inputs.
-    //Will search by surname if that field is filled in.
-    //Other will search by county, category or both as appropriate.
+    //Query is built up based on user inputs to create a compund query.
     //All results filtered to return only entertainers.
-    if (this.state.searchText != "") {
-      var query = this.ref.where("surname", "==", this.state.searchText).where("userType", "==", "entertainer");
-    } else if (this.state.county === "" && this.state.category === "") {
-      var query = this.ref.where("userType", "==", "entertainer");
-    } else if (this.state.category === "") {
-      var query = this.ref.where("county", "==", this.state.county).where("userType", "==", "entertainer");
-    } else if (this.state.county === "") {
-      var query = this.ref.where("category", "==", this.state.category).where("userType", "==", "entertainer");
-    } else {
-      var query = this.ref
-        .where("county", "==", this.state.county)
-        .where("category", "==", this.state.category)
-        .where("userType", "==", "entertainer");
-    }
 
+    var query = this.ref.where("userType", "==", "entertainer");
+    if (this.state.searchText != "") {
+      query = query.where("surname", "==", this.state.searchText);
+    }
+    if (this.state.county !== "") {
+      query = query.where("county", "==", this.state.county);
+    }
+    if (this.state.category !== "") {
+      query = query.where("category", "==", this.state.category);
+    }
+    
     //search the databse for profiles using the query created above.
     var query2 = query
       .get()
@@ -85,38 +82,50 @@ class UserSearch extends React.Component {
       searchText: ""
     });
   };
+  //makeBooking function, called by a button in the modal.
+  //first adds the booking to the users pending bookings, then adds it to
+  //the selected enteratiners bookingRequests. 
+
+  //function checks if date is enter and that the date is in the future.
   makeBooking = async () => {
-    const user = fire.auth().currentUser.email;
-    const users = fire.firestore().collection("/users");
+    var curDate =  new Date(); //current date
+    var inputDate = new Date(this.state.bookingDate); //date from user
+    if(this.state.bookingDate != "" && inputDate > curDate){ //date check
+      const user = fire.auth().currentUser.email;
+      const users = fire.firestore().collection("/users");
 
-    const entertainer = this.state.entertainerEmail;
+      const entertainer = this.state.entertainerEmail;
 
-    const userData = await users.doc(user).get();
-    await users.doc(user).update({
-      pendingBookings: [
-        ...(userData.data().pendingBookings || []),
-        { entertainer, date: this.state.bookingDate }
-      ]
-    });
-    const entertainerData = await users.doc(entertainer).get();
-    await users.doc(entertainer).update({
-      bookingRequests: [
-        ...(entertainerData.data().bookingRequests || []),
-        { user, date: this.state.bookingDate }
-      ]
-    });
-    this.closeModal();
+      const userData = await users.doc(user).get();
+      //this code updates firebase
+      await users.doc(user).update({
+        pendingBookings: [
+          ...(userData.data().pendingBookings || []),
+          { entertainer, date: this.state.bookingDate }
+        ]
+      });
+      //this updates the selected entertainers bookRequests data.
+      const entertainerData = await users.doc(entertainer).get();
+      await users.doc(entertainer).update({
+        bookingRequests: [
+          ...(entertainerData.data().bookingRequests || []),
+          { user, date: this.state.bookingDate }
+        ]
+      });
+      this.closeModal();
+    }
+    else{
+      alert("Please enter a future date."); //error message
+    }
   };
 
+  //makeFavourite function, called by button in modal.
   makeFavourite = async () => {
     const user = fire.auth().currentUser.email;
     const users = fire.firestore().collection("/users");
 
-    //const firstName = this.state.firstName;
-    // const category = this.state.category;
-    // const county = this.state.county;
     const entertainer = this.state.entertainerEmail;
-
+    //updates the users firebase document and adds entertainers email address to users favourites.
     const userData = await users.doc(user).get();
     await users.doc(user).update({
       favourites: [
@@ -147,10 +156,12 @@ class UserSearch extends React.Component {
       </>
     )
   };
-
+  
+  //when the button the open the Modal is pressed, the modalOpen state is set to true
+  //and the page is then rendered. The modal will now be displayed.
   openModal = user =>
     this.setState({ modalOpen: true, entertainerEmail: user });
-  closeModal = () => this.setState({ modalOpen: false });
+  closeModal = () => this.setState({ modalOpen: false }); //closes Modal by changing state and rerendering.
   render() {
     if ( //this case is when a search has taken place (searchResults == true) but no profiles were found in the database.
       this.state.searchResults === true &&
@@ -164,10 +175,10 @@ class UserSearch extends React.Component {
           </button>
         </div>
       );
-    } else if (this.state.searchResults === true) { //search has taken place and profiles information needs to be displayed.
+    } else if (this.state.searchResults === true) { //search has taken place and profile information needs to be displayed.
       return (
         <>
-          {this.state.modalOpen ? ( //open booking/favorites/cancel modal if openModal (options) button is clicked.
+          {this.state.modalOpen ? ( //open viewprofile/booking/favorites/cancel modal if openModal (options) button is clicked.
             <>
               <div class="modal d-block" tabIndex="-1" role="dialog">
                 <div class="modal-dialog d-block" role="document">
@@ -191,7 +202,7 @@ class UserSearch extends React.Component {
                         onChange={e =>
                           this.setState({ bookingDate: e.target.value })
                         }
-                        required></input>
+                        required="required"></input>
                     </div>
                     <div class="modal-footer">
                       <button

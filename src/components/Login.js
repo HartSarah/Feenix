@@ -4,32 +4,21 @@ import { Toaster, Intent } from "@blueprintjs/core";
 import { fire, facebookProvider } from "../fire";
 
 class Login extends Component {
+  //initialising as the default which are altered later.
   state = {
     email: "",
     password: ""
   };
-  authWithFacebook = () => {
-    fire
-      .auth()
-      .signInWithPopup(facebookProvider)
-      .then((user, error) => {
-        if (error) {
-          this.toaster.show({
-            intent: Intent.DANGER,
-            message: "Unable to sign in with Facebook"
-          });
-        } else {
-          this.props.history.push("/CreateProfile");
-        }
-      });
-  };
+
+  //this method take current state of email and password and map them to a const data type
   authWithEmailPassword = () => {
     const { email, password } = this.state;
-
+  //here we are connecting to the database/ verifiying general users credentials(using a promise to achieve this)
     fire
       .auth()
       .fetchProvidersForEmail(email)
       .then(providers => {
+        //errors handers for both incoorect input.
         if (providers.indexOf("password") === -1) {
           this.toaster.show({
             intent: Intent.WARNING,
@@ -39,6 +28,7 @@ class Login extends Component {
           return fire.auth().signInWithEmailAndPassword(email, password);
         }
       })
+      //if user macthes with the database then they wil bve directed to the create profile page.
       .then(user => {
         if (user) {
           this.props.history.push("/CreateProfile");
@@ -79,9 +69,6 @@ class Login extends Component {
             Log In
           </button>
         </div>
-        <button className="button" onClick={this.authWithFacebook}>
-          Log In With Facebook
-        </button>
       </div>
     );
   }

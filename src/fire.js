@@ -3,8 +3,7 @@ import 'firebase/auth';
 import 'firebase/database';
 import 'firebase/firestore';
 
-//const settings = {timestampsInSnapshots: true};
-  //Initialize Firebase from unique credentials
+//firebase crendentials for the app.
 
 const config = {
     apiKey: "AIzaSyC4XzLP2PjPLcNh_79xzsdOGOQ-A-E6MlU",
@@ -16,8 +15,6 @@ const config = {
   };
  
 const fire =  firebase.initializeApp(config);
-
-//firebase.firestore().settings(settings);
 
 const facebookProvider = new firebase.auth.FacebookAuthProvider();
 

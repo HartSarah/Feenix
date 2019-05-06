@@ -3,6 +3,10 @@ import { Redirect } from "react-router-dom";
 import "./EditProfile.css";
 import { fire } from "./fire";
 
+// This page is reached from account.js.
+// The users details is store in the components state when the page loads.
+// The current details are then dispalyed in editable input boxes.
+// After an edit the editComplete field is set to true and the user is then navigated to thier profile page.
 class EditProfile extends React.Component {
   constructor(props) {
     super();
@@ -67,6 +71,10 @@ class EditProfile extends React.Component {
 
     reader.readAsDataURL(this.state.picture);
   };
+
+  //function to edit the users data.
+  //The fields are then reset, editComplete is set to true and the user is redirected
+  //to their profile.
   onSubmit = (e) => {
     e.preventDefault();
 
@@ -118,8 +126,6 @@ class EditProfile extends React.Component {
           county: "",
           editComplete: true
         });
-
-        //this.props.history.push("./UserNavigation/"+name);
       })
       .catch(error => {
         console.error("Error adding document: ", error);
@@ -127,6 +133,9 @@ class EditProfile extends React.Component {
   };
 
   render() {
+    //the page viewed by the user will be stored in a variable called displayedPage.
+    //The value of displayedPage depends on the results of the if, else if, else if statements
+    //in this render function. displayedPage is returned by this function.
     let displayedPage = null;
     if (
       this.state.userType === "customer" &&
@@ -227,7 +236,8 @@ class EditProfile extends React.Component {
               >
                 {[this.state.category, "Comedy", "Kids", "Magic", "Music"]
                   // transforms the array of counties to an array of <option>county</option>
-                  // this.state.category 
+                  // this.state.category is the current value and is displayed as default when
+                  //the page is opened.
                   .map(category => (
                     <option>{category}</option>
                   ))}
@@ -276,6 +286,7 @@ class EditProfile extends React.Component {
                   "Wicklow"
                 ]
                   // transforms the array of counties to an array of <option>county</option>
+                  //this.state.county sets the displayed value as the current value.
                   .map(county => (
                     <option>{county}</option>
                   ))}

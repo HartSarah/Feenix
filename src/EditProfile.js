@@ -69,7 +69,7 @@ class EditProfile extends React.Component {
       this.setState({ picture: reader.result });
     };
 
-    reader.readAsDataURL(this.state.picture);
+    reader.readAsDataURL(e.target.files[0]);
   };
 
   //function to edit the users data.

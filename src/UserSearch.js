@@ -94,10 +94,10 @@ class UserSearch extends React.Component {
       const user = fire.auth().currentUser.email;
       const users = fire.firestore().collection("/users");
 
-      const entertainer = this.state.entertainerEmail;
+      const entertainer = this.state.entertainerEmail; //entertainerEmail received form openModal function.
 
       const userData = await users.doc(user).get();
-      //this code updates firebase
+      //this code updates firebase with the new Pending booking object.
       await users.doc(user).update({
         pendingBookings: [
           ...(userData.data().pendingBookings || []),
@@ -280,7 +280,7 @@ class UserSearch extends React.Component {
                         //button to open modal. The relevent entertainer email is passed to the openModal method.
                         className="button"
                         onClick={() =>
-                          this.openModal(returnedProfile.data().userEmail)
+                          this.openModal(returnedProfile.data().userEmail) //email of the entertainer in the search results.
                         }
                       >
                         Options

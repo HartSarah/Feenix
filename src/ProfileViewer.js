@@ -6,9 +6,9 @@ import { UserProfileContext } from "./components/EnsureProfile";
 
 class ProfileViewer extends React.Component {
   render() {
-    return (
-      <UserProfileContext.Consumer>
-        {profile => (
+    return (/**Takes in profile from ensureProfile */
+      <UserProfileContext.Consumer> 
+        {profile => ( //function manipulates how various parts of profile object are displayed.
           <>
             <div className="container profile-container login-container text-center ">
             <h3 className="text-danger">Profile</h3>

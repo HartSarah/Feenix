@@ -10,19 +10,23 @@ export default class EnsureProfile extends Component {
   state = {
     loading: true
   };
+  /*getting information in firebase by user email key. and checking if there is data present for that key. Changes loading to false when response is received.*/
   componentDidMount() {
     this.subscription = fire
       .firestore()
       .collection("users")
       .doc(fire.auth().currentUser.email)
-      .onSnapshot(snap => {
-        this.setState(() => ({ loading: false, profile: snap.data() }));
-      });
+      .onSnapshot(snap =>
+        this.setState({ loading: false, profile: snap.data() })
+      );
   }
+  /**
+   * removes subscription when component Removed from DOM
+   */
   componentWillUnmount = () => {
     this.subscription();
   };
-  setProfile = profile => this.setState({ profile });
+
   render() {
     if (this.state.loading === true) {
       return (
@@ -37,21 +41,22 @@ export default class EnsureProfile extends Component {
         </div>
       );
     }
-    if (this.state.profile)
+    if (this.state.profile) {
+      //checks if profile exists.
       return (
-        <UserProfileContext.Provider
-          value={{ setProfile: this.setProfile, ...this.state.profile }}
-        >
-          {this.props.children}
+        //makes the profile globally accessible
+        <UserProfileContext.Provider value={this.state.profile}>
+          {this.props.children /*renders rest of app*/}
         </UserProfileContext.Provider>
       );
-    return (
-      <Switch>
-        <Route path="/CreateProfile">
-          <CreateProfile setProfile={this.setProfile} />
-        </Route>
-        <Route>{() => <Redirect to="/CreateProfile" />}</Route>
-      </Switch>
-    );
+    } else {
+      //otherwise return to the create profile page.
+      return (
+        <Switch>
+          <Route path="/CreateProfile" component={CreateProfile} />
+          <Route>{() => <Redirect to="/CreateProfile" />}</Route>
+        </Switch>
+      );
+    }
   }
 }

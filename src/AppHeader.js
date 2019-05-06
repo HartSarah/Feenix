@@ -17,12 +17,13 @@ export default class AppHeader extends Component {
                 this.setState(state => ({ navOpen: !state.navOpen }))
               }
             >
-              {profile.picture ? (
+              {profile.picture ? (//checks if user has a profile picture, if not displays a user icon.
                 <img src={profile.picture} className="profileImg" />
               ) : (
                 <div className="fa fa-user" />
               )}
-              {this.state.navOpen ? (
+
+              {this.state.navOpen ? ( //if navigation has been clicked open the menu.
                 <div className="menuBody">
                   <NavLink to="/Profile">Profile</NavLink>
                   <NavLink to="/Bookings">Bookings</NavLink>

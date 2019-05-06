@@ -10,13 +10,11 @@ export default class ProfileViewer extends React.Component {
 
     const userRef = await users.doc(currentUser).get();
     const user = userRef.data();
-    let denied;
 
     //deleted elements are stored in deletedFavouites
     const deletedFavourites = [];
     for (let i = 0; i < (user.favourites || []).length; i++) {
       if (i === index) {
-        denied = user.favourites[i];
       } else {
         //pushes method which goes through fav
         deletedFavourites.push(user.favourites[i]);

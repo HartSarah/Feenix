@@ -3,7 +3,7 @@ import { UserProfileContext } from "./components/EnsureProfile";
 export default function Bookings() {
   return (
     <UserProfileContext.Consumer>
-      {({ pendingBookings = [], confirmedBookings = [] }) => (
+      {({ pendingBookings = []/*holds all pending bookings. */, confirmedBookings = [] }) => (
         <div className="container">
           <h3 className="text-danger text-center">Bookings</h3>
           <table className="table table-stripe">
@@ -15,7 +15,7 @@ export default function Bookings() {
               </tr>
             </thead>
             <tbody>
-              {pendingBookings.map(req => (
+              {pendingBookings.map(req => ( // transforms object which holds email and date, into jsx for a table holding this information. 
                 <tr key={`${req.entertainer} ${req.date}`}>
                   <td>{req.entertainer}</td>
                   <td>{req.date}</td>

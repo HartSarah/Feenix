@@ -21,7 +21,6 @@ export default class CreateProfile extends React.Component {
       .collection("users")
       .doc(user.userEmail)
       .set(user)
-      .then(()=>this.props.setProfile(user))
       .catch(error => {
         console.error("Error adding document: ", error);
       });

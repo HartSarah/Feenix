@@ -208,13 +208,6 @@ class UserSearch extends React.Component {
                       <button
                         type="button"
                         class="button"
-                        onClick={() => this.viewProfile()}
-                      >
-                        View Profile
-                      </button>
-                      <button
-                        type="button"
-                        class="button"
                         onClick={() => this.makeBooking()}
                       >
                         Book Now

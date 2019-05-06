@@ -10,7 +10,6 @@ export default class ProfileViewer extends React.Component {
 
     const userRef = await users.doc(currentUser).get();
     const user = userRef.data();
-
     let denied;
     //deleted elements are stored in deletedFavouites
     const deletedFavourites = [];

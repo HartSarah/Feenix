@@ -1,7 +1,34 @@
 import React from "react";
 import { UserProfileContext } from "./components/EnsureProfile";
-export default function Bookings() {
+import { fire } from "./fire";
+export default class ProfileViewer extends React.Component {
+  
+  //async delete function which deletes elements in the favourite function firebase.
+  async deleteFavourites(index) {
+    const currentUser = fire.auth().currentUser.email;
+    const users = fire.firestore().collection("/users");
 
+    const userRef = await users.doc(currentUser).get();
+    const user = userRef.data();
+
+    let denied;
+    //deleted elements are stored in deletedFavouites
+    const deletedFavourites = [];
+    for (let i = 0; i < (user.favourites || []).length; i++) {
+      if (i === index) {
+        denied = user.favourites[i];
+      } else {
+        //pushes method which goes through fav
+        deletedFavourites.push(user.favourites[i]);
+      }
+    }
+    //upadated in firebase on the current user (it updates the variables)
+    await users.doc(currentUser).update({
+      favourites: deletedFavourites
+    });
+
+  }
+  render() {
   return (
     <UserProfileContext.Consumer>
       {({ favourites = [] }) => (
@@ -21,14 +48,14 @@ export default function Bookings() {
                   <td></td>
                   <td> </td>
                 </tr> */}
-                {favourites.map(req => (
+                {favourites.map((req, i) => (
                 <tr key={`${req.entertainer} ${req.date}`}>
                   <td>{req.entertainer}</td>
                   <td>{req.date}</td>
                   <td>
                       <button
                         className="button"
-                        //onClick={() => this.delete()}
+                        onClick={() => this.deleteFavourites(i)}
                       >
                         Delete
                       </button>
@@ -54,3 +81,4 @@ export default function Bookings() {
 //   });
 // }
 
+}

@@ -57,7 +57,7 @@ class CreateEntertainerProfile extends React.Component {
   render() {
     return (
       <div className="container text-center search-container">
-        <h1 className="header">Feenix</h1>
+        <h3 className="text-danger">Become an Entertainer</h3>
         <p className="text">
           Please choose from the drop down if you are a customer or an entertainer <br />
           Then create your profile

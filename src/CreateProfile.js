@@ -74,6 +74,7 @@ export default class CreateProfile extends React.Component {
           <Entertainer
             submit={this.onSubmit}
             onChange={this.onChange}
+            setPicture={this.setPicture}
             {...this.state}
           />
         )}

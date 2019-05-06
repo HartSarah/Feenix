@@ -11,6 +11,7 @@ export default class ProfileViewer extends React.Component {
     const userRef = await users.doc(currentUser).get();
     const user = userRef.data();
     let denied;
+
     //deleted elements are stored in deletedFavouites
     const deletedFavourites = [];
     for (let i = 0; i < (user.favourites || []).length; i++) {
@@ -54,7 +55,7 @@ export default class ProfileViewer extends React.Component {
                   <td>
                       <button
                         className="button"
-                        onClick={() => this.deleteFavourites(i)}
+                        onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) this.deleteFavourites(i)} }
                       >
                         Delete
                       </button>
